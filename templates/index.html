@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="VoyageAI - Smart Travel Planner with AI-powered itinerary generation, budget optimization, weather forecasts, and interactive maps for Indian destinations.">
+    <title>VoyageAI — Smart Travel Planner</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- App CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!-- ═══════════════ AUTH OVERLAY ═══════════════ -->
+    <div id="authOverlay" class="auth-overlay">
+        <div class="auth-container">
+            <div class="auth-brand">
+                <div class="auth-logo">
+                    <span class="logo-icon">🌍</span>
+                    <h1>Voyage<span class="accent">AI</span></h1>
+                </div>
+                <p class="auth-tagline">Your Smart Travel Companion</p>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form active">
+                <h2>Welcome Back</h2>
+                <div class="form-group">
+                    <label for="loginUsername">Username</label>
+                    <input type="text" id="loginUsername" placeholder="Enter your username" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full" id="loginBtn">
+                    <span>Sign In</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+                <p class="auth-switch">Don't have an account? <a href="#" id="showRegister">Create one</a></p>
+                <div id="loginError" class="auth-error"></div>
+            </form>
+
+            <!-- Register Form -->
+            <form id="registerForm" class="auth-form">
+                <h2>Create Account</h2>
+                <div class="form-group">
+                    <label for="regFullname">Full Name</label>
+                    <input type="text" id="regFullname" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="regUsername">Username</label>
+                    <input type="text" id="regUsername" placeholder="Choose a username" required>
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Password</label>
+                    <input type="password" id="regPassword" placeholder="Create a password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full" id="registerBtn">
+                    <span>Create Account</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+                <p class="auth-switch">Already have an account? <a href="#" id="showLogin">Sign in</a></p>
+                <div id="registerError" class="auth-error"></div>
+            </form>
+
+            <!-- Skip Login -->
+            <button id="skipLogin" class="btn btn-ghost btn-full mt-1">
+                Continue as Guest →
+            </button>
+        </div>
+    </div>
+
+    <!-- ═══════════════ MAIN APP ═══════════════ -->
+    <div id="mainApp" class="app-layout hidden">
+
+        <!-- ─── Sidebar ─── -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <span class="logo-icon">🌍</span>
+                <h1>Voyage<span class="accent">AI</span></h1>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-section="dashboard" id="nav-dashboard">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" data-section="planner" id="nav-planner">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                    <span>Plan Trip</span>
+                </a>
+                <a href="#" class="nav-item" data-section="budget" id="nav-budget">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    <span>Budget</span>
+                </a>
+                <a href="#" class="nav-item" data-section="explore" id="nav-explore">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 7 8 11.7z"/></svg>
+                    <span>Explore</span>
+                </a>
+                <a href="#" class="nav-item" data-section="weather" id="nav-weather">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+                    <span>Weather</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-info" id="userInfo">
+                    <div class="user-avatar" id="userAvatar">G</div>
+                    <div class="user-details">
+                        <span class="user-name" id="userName">Guest</span>
+                        <span class="user-role">Traveler</span>
+                    </div>
+                </div>
+                <button class="btn btn-ghost btn-sm" id="logoutBtn" title="Logout">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                </button>
+            </div>
+        </aside>
+
+        <!-- ─── Mobile Header ─── -->
+        <header class="mobile-header" id="mobileHeader">
+            <button class="hamburger" id="hamburgerBtn">
+                <span></span><span></span><span></span>
+            </button>
+            <div class="mobile-brand">
+                <span>🌍</span> Voyage<span class="accent">AI</span>
+            </div>
+            <div class="user-avatar user-avatar-sm" id="mobileUserAvatar">G</div>
+        </header>
+
+        <!-- ─── Main Content ─── -->
+        <main class="main-content" id="mainContent">
+
+            <!-- ═══ DASHBOARD SECTION ═══ -->
+            <section class="section active" id="section-dashboard">
+                <div class="section-header">
+                    <div>
+                        <h1 class="section-title">Welcome to <span class="gradient-text">VoyageAI</span></h1>
+                        <p class="section-subtitle">Plan your perfect trip with smart AI-powered suggestions</p>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card stat-card-1">
+                        <div class="stat-icon">🗺️</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="statDestinations">25</span>
+                            <span class="stat-label">Destinations</span>
+                        </div>
+                    </div>
+                    <div class="stat-card stat-card-2">
+                        <div class="stat-icon">📋</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="statTrips">0</span>
+                            <span class="stat-label">Saved Trips</span>
+                        </div>
+                    </div>
+                    <div class="stat-card stat-card-3">
+                        <div class="stat-icon">⭐</div>
+                        <div class="stat-info">
+                            <span class="stat-value">4.5</span>
+                            <span class="stat-label">Avg Rating</span>
+                        </div>
+                    </div>
+                    <div class="stat-card stat-card-4">
+                        <div class="stat-icon">🌦️</div>
+                        <div class="stat-info">
+                            <span class="stat-value">Live</span>
+                            <span class="stat-label">Weather Data</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <h2 class="subsection-title">Quick Actions</h2>
+                    <div class="actions-grid">
+                        <button class="action-card" data-goto="planner" id="action-plan">
+                            <div class="action-icon">🧠</div>
+                            <h3>Smart Plan</h3>
+                            <p>Auto-generate an itinerary based on your preferences</p>
+                        </button>
+                        <button class="action-card" data-goto="budget" id="action-budget">
+                            <div class="action-icon">💰</div>
+                            <h3>Budget Optimizer</h3>
+                            <p>Find the best destinations within your budget</p>
+                        </button>
+                        <button class="action-card" data-goto="explore" id="action-explore">
+                            <div class="action-icon">🗺️</div>
+                            <h3>Explore Map</h3>
+                            <p>Browse destinations on an interactive map</p>
+                        </button>
+                        <button class="action-card" data-goto="weather" id="action-weather">
+                            <div class="action-icon">🌦️</div>
+                            <h3>Weather Check</h3>
+                            <p>Get real-time weather for any destination</p>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Popular Destinations -->
+                <div class="popular-destinations">
+                    <h2 class="subsection-title">Top Destinations</h2>
+                    <div class="destinations-scroll" id="popularDestinations">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Saved Trips -->
+                <div class="saved-trips-section" id="savedTripsSection">
+                    <h2 class="subsection-title">Your Saved Trips</h2>
+                    <div class="trips-grid" id="savedTripsGrid">
+                        <!-- Populated by JS -->
+                    </div>
+                    <div class="empty-state" id="noTripsMessage">
+                        <span class="empty-icon">✈️</span>
+                        <p>No saved trips yet. Start planning your first adventure!</p>
+                        <button class="btn btn-primary" data-goto="planner">Plan a Trip</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══ PLANNER SECTION ═══ -->
+            <section class="section" id="section-planner">
+                <div class="section-header">
+                    <div>
+                        <h1 class="section-title">🧠 Smart <span class="gradient-text">Itinerary</span> Generator</h1>
+                        <p class="section-subtitle">Tell us your preferences, we'll craft the perfect trip</p>
+                    </div>
+                </div>
+
+                <div class="planner-layout">
+                    <!-- Input Form -->
+                    <div class="planner-form-card glass-card">
+                        <h2>Trip Preferences</h2>
+
+                        <div class="form-group">
+                            <label for="planDestination">Destination</label>
+                            <select id="planDestination" class="form-select">
+                                <option value="">Choose a destination...</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="planDays">Number of Days</label>
+                                <input type="number" id="planDays" min="1" max="10" value="3" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label for="planBudget">Budget Tier</label>
+                                <select id="planBudget" class="form-select">
+                                    <option value="budget">🎒 Backpacker</option>
+                                    <option value="comfort" selected>🏨 Comfort</option>
+                                    <option value="luxury">👑 Luxury</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Your Interests</label>
+                            <div class="interest-tags" id="interestTags">
+                                <button type="button" class="interest-tag" data-interest="adventure">🏔️ Adventure</button>
+                                <button type="button" class="interest-tag" data-interest="culture">🏛️ Culture</button>
+                                <button type="button" class="interest-tag" data-interest="food">🍛 Food</button>
+                                <button type="button" class="interest-tag" data-interest="nature">🌿 Nature</button>
+                                <button type="button" class="interest-tag" data-interest="shopping">🛍️ Shopping</button>
+                                <button type="button" class="interest-tag" data-interest="spiritual">🙏 Spiritual</button>
+                                <button type="button" class="interest-tag" data-interest="beach">🏖️ Beach</button>
+                                <button type="button" class="interest-tag" data-interest="history">📜 History</button>
+                                <button type="button" class="interest-tag" data-interest="photography">📸 Photography</button>
+                                <button type="button" class="interest-tag" data-interest="trekking">🥾 Trekking</button>
+                                <button type="button" class="interest-tag" data-interest="wellness">🧘 Wellness</button>
+                                <button type="button" class="interest-tag" data-interest="nightlife">🎉 Nightlife</button>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary btn-full" id="generateItinerary">
+                            <span>✨ Generate Smart Itinerary</span>
+                        </button>
+                    </div>
+
+                    <!-- Generated Itinerary -->
+                    <div class="itinerary-result" id="itineraryResult">
+                        <div class="empty-state">
+                            <span class="empty-icon">📋</span>
+                            <p>Select a destination and your interests, then click generate to create your personalized itinerary!</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══ BUDGET SECTION ═══ -->
+            <section class="section" id="section-budget">
+                <div class="section-header">
+                    <div>
+                        <h1 class="section-title">💰 Budget <span class="gradient-text">Optimizer</span></h1>
+                        <p class="section-subtitle">Plan smart, travel more — optimize every rupee</p>
+                    </div>
+                </div>
+
+                <div class="budget-layout">
+                    <!-- Budget Suggestions -->
+                    <div class="glass-card">
+                        <h2>Find Destinations by Budget</h2>
+                        <div class="form-row">
+                            <div class="form-group flex-2">
+                                <label for="totalBudgetInput">Total Budget (₹)</label>
+                                <input type="number" id="totalBudgetInput" placeholder="e.g. 15000" min="1000" step="500" class="form-input form-input-lg">
+                            </div>
+                            <div class="form-group">
+                                <label for="budgetDaysInput">Days</label>
+                                <input type="number" id="budgetDaysInput" value="3" min="1" max="10" class="form-input form-input-lg">
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-full" id="findByBudget">
+                            🔍 Find Best Destinations
+                        </button>
+                        <div class="budget-suggestions" id="budgetSuggestions">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Budget Breakdown -->
+                    <div class="glass-card">
+                        <h2>Budget Breakdown</h2>
+                        <div class="chart-container">
+                            <canvas id="budgetChart"></canvas>
+                        </div>
+                        <div class="budget-breakdown-list" id="budgetBreakdownList">
+                            <p class="text-muted">Select a destination to see the cost breakdown</p>
+                        </div>
+                    </div>
+
+                    <!-- Expense Tracker -->
+                    <div class="glass-card expense-tracker-card">
+                        <h2>📊 Expense Tracker</h2>
+                        <div class="form-row">
+                            <div class="form-group flex-2">
+                                <input type="text" id="expenseName" placeholder="Expense description" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <select id="expenseCategory" class="form-select">
+                                    <option value="food">🍛 Food</option>
+                                    <option value="stay">🏨 Stay</option>
+                                    <option value="transport">🚗 Transport</option>
+                                    <option value="activities">🎯 Activities</option>
+                                    <option value="shopping">🛍️ Shopping</option>
+                                    <option value="misc">📦 Misc</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input type="number" id="expenseAmount" placeholder="₹ Amount" class="form-input">
+                            </div>
+                            <button class="btn btn-primary" id="addExpense">Add</button>
+                        </div>
+                        <div class="expense-list" id="expenseList">
+                            <div class="empty-state small">
+                                <p>No expenses tracked yet</p>
+                            </div>
+                        </div>
+                        <div class="expense-total" id="expenseTotal">
+                            <span>Total Expenses:</span>
+                            <span class="total-amount">₹0</span>
+                        </div>
+                        <div class="chart-container chart-sm">
+                            <canvas id="expenseChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══ EXPLORE SECTION ═══ -->
+            <section class="section" id="section-explore">
+                <div class="section-header">
+                    <div>
+                        <h1 class="section-title">🗺️ Explore <span class="gradient-text">Destinations</span></h1>
+                        <p class="section-subtitle">Discover incredible places across India</p>
+                    </div>
+                </div>
+
+                <div class="explore-layout">
+                    <div class="map-container glass-card">
+                        <div id="leafletMap" class="leaflet-map"></div>
+                    </div>
+
+                    <div class="explore-sidebar">
+                        <div class="search-box">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            <input type="text" id="searchDestinations" placeholder="Search destinations..." class="search-input">
+                        </div>
+                        <div class="filter-tags" id="filterTags">
+                            <button class="filter-tag active" data-filter="all">All</button>
+                            <button class="filter-tag" data-filter="beach">🏖️ Beach</button>
+                            <button class="filter-tag" data-filter="adventure">🏔️ Adventure</button>
+                            <button class="filter-tag" data-filter="culture">🏛️ Culture</button>
+                            <button class="filter-tag" data-filter="nature">🌿 Nature</button>
+                            <button class="filter-tag" data-filter="history">📜 History</button>
+                            <button class="filter-tag" data-filter="spiritual">🙏 Spiritual</button>
+                        </div>
+                        <div class="destination-list" id="destinationList">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══ WEATHER SECTION ═══ -->
+            <section class="section" id="section-weather">
+                <div class="section-header">
+                    <div>
+                        <h1 class="section-title">🌦️ Weather <span class="gradient-text">Forecast</span></h1>
+                        <p class="section-subtitle">Check real-time weather conditions before you travel</p>
+                    </div>
+                </div>
+
+                <div class="weather-layout">
+                    <div class="glass-card">
+                        <div class="weather-search">
+                            <select id="weatherCity" class="form-select form-select-lg">
+                                <option value="">Select a destination...</option>
+                            </select>
+                            <button class="btn btn-primary" id="checkWeather">
+                                🔍 Check Weather
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="weather-result" id="weatherResult">
+                        <div class="empty-state">
+                            <span class="empty-icon">☁️</span>
+                            <p>Select a destination to check the weather forecast</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- ═══ TOAST NOTIFICATIONS ═══ -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ═══ LOADING OVERLAY ═══ -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loader">
+            <div class="loader-spinner"></div>
+            <p>Planning your adventure...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/static/js/app.js"></script>
+    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/itinerary.js"></script>
+    <script src="/static/js/budget.js"></script>
+    <script src="/static/js/weather.js"></script>
+    <script src="/static/js/map.js"></script>
+</body>
+</html>

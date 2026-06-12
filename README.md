@@ -336,10 +336,3 @@ See the `LICENSE` file for more information.
 **Your Name**
 
 * GitHub: https://github.com/your-username
-* LinkedIn: https://linkedin.com/in/your-profile
-
----
-
-<p align="center">
-  Made with ❤️ using Flask, JavaScript, and Open Source Technologies
-</p>

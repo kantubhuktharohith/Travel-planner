@@ -1,171 +1,345 @@
-# 🌍 VoyageAI — Smart Travel Planner
+# 🌍 VoyageAI – Smart Travel Planner
 
-A feature-rich travel planner web application with AI-powered itinerary generation, budget optimization, real-time weather forecasting, and interactive maps.
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.8+-blue.svg" alt="Python">
+  <img src="https://img.shields.io/badge/Flask-3.0-black.svg" alt="Flask">
+  <img src="https://img.shields.io/badge/JavaScript-ES6-yellow.svg" alt="JavaScript">
+  <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License">
+</p>
 
-![Python](https://img.shields.io/badge/Python-3.8+-blue?logo=python)
-![Flask](https://img.shields.io/badge/Flask-3.0-green?logo=flask)
-![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow?logo=javascript)
-![License](https://img.shields.io/badge/License-MIT-purple)
+<p align="center">
+  <b>An AI-inspired travel planning platform that helps users create personalized itineraries, optimize travel budgets, track expenses, explore destinations, and monitor real-time weather conditions.</b>
+</p>
 
 ---
 
-## ✨ Key Features
+## ✨ Overview
+
+VoyageAI is a feature-rich travel planning web application designed to simplify trip preparation and decision-making. The platform combines intelligent itinerary generation, budget analysis, weather forecasting, expense tracking, and interactive mapping into a seamless user experience.
+
+Whether you're a backpacker planning a budget-friendly adventure or a luxury traveler organizing a premium vacation, VoyageAI provides data-driven recommendations tailored to your preferences.
+
+---
+
+## 🚀 Features
 
 ### 🧠 Smart Itinerary Generator
-- Auto-generates day-wise travel plans based on your interests
-- Preference-based scoring algorithm ranks attractions intelligently
-- Supports 12 interest categories: Adventure, Culture, Food, Nature, and more
-- Morning / Afternoon / Evening slot distribution
+
+Generate personalized travel plans based on user interests and destination preferences.
+
+**Highlights**
+
+* Automatic day-wise itinerary generation
+* Intelligent attraction ranking algorithm
+* Support for 12 travel interest categories:
+
+  * Adventure
+  * Culture
+  * Food
+  * Nature
+  * Wildlife
+  * History
+  * Spiritual
+  * Photography
+  * Beaches
+  * Shopping
+  * Nightlife
+  * Relaxation
+* Morning, Afternoon, and Evening activity distribution
+* Balanced and optimized travel schedules
+
+---
 
 ### 💰 Budget Optimizer
-- Enter your total budget → get ranked destination suggestions
-- Three tiers: Backpacker, Comfort, and Luxury
-- Visual cost breakdown with interactive doughnut chart (Chart.js)
-- Shows savings and identifies over-budget destinations
+
+Discover destinations that fit your budget before planning your trip.
+
+**Features**
+
+* Budget-based destination recommendations
+* Three travel styles:
+
+  * Backpacker
+  * Comfort
+  * Luxury
+* Interactive cost breakdown visualization
+* Savings estimation
+* Over-budget destination alerts
+* Doughnut charts powered by Chart.js
+
+---
 
 ### 📊 Expense Tracker
-- Track trip expenses by category (Food, Stay, Transport, Activities, Shopping, Misc)
-- Real-time bar chart visualization
-- Running total with add/remove functionality
 
-### 🌦️ Real-Time Weather
-- Live weather data via OpenWeatherMap API
-- 5-day forecast with temperature, humidity, and wind details
-- Smart travel alerts (heat warnings, rain alerts, cold advisories)
-- Context-aware travel tips based on conditions and destination type
+Track spending throughout your journey with real-time updates.
 
-### 🗺️ Interactive Map
-- LeafletJS-powered map with dark theme tiles
-- Custom markers for 25+ Indian destinations
-- Search and filter by category (Beach, Adventure, Culture, Nature, etc.)
-- Click-to-explore with fly-to animations
+**Categories**
 
-### 🔐 Login System
-- User registration with password hashing (werkzeug)
-- Flask session-based authentication
-- Save and manage multiple trip plans
-- Guest mode for quick exploration
+* Food
+* Accommodation
+* Transportation
+* Activities
+* Shopping
+* Miscellaneous
+
+**Capabilities**
+
+* Add and remove expenses instantly
+* Running trip cost calculation
+* Interactive spending analytics
+* Category-wise expenditure charts
 
 ---
 
-## 🛠️ Tech Stack
+### 🌦️ Real-Time Weather Forecast
 
-| Component | Technology |
-|-----------|-----------|
-| **Backend** | Python 3, Flask 3.0 |
-| **Frontend** | HTML5, CSS3, Vanilla JavaScript |
-| **Maps** | LeafletJS (open-source) |
-| **Charts** | Chart.js 4.4 |
-| **Weather API** | OpenWeatherMap |
-| **Typography** | Google Fonts (Inter, Outfit) |
-| **Auth** | werkzeug password hashing |
-| **Data Storage** | JSON flat-file database |
+Stay informed with accurate weather information before and during your trip.
 
----
+**Weather Insights**
 
-## 🚀 Setup & Installation
+* Current weather conditions
+* 5-day forecast
+* Temperature tracking
+* Humidity levels
+* Wind speed monitoring
 
-### Prerequisites
-- Python 3.8 or higher
-- pip (Python package manager)
+**Smart Travel Alerts**
 
-### Steps
-
-1. **Clone / Download** the project
-
-2. **Install dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Run the server**:
-   ```bash
-   python app.py
-   ```
-
-4. **Open your browser**:
-   Navigate to `http://localhost:5000`
+* Heavy rain warnings
+* Heat advisories
+* Cold weather alerts
+* Destination-specific travel recommendations
 
 ---
 
-## 📁 Project Structure
+### 🗺️ Interactive Destination Explorer
 
-```
-travel planner/
-├── app.py                    # Flask backend — routes & API endpoints
-├── requirements.txt          # Python dependencies
-├── README.md                 # Project documentation
+Explore destinations through an engaging map experience.
+
+**Map Features**
+
+* Built with LeafletJS
+* Dark-themed map interface
+* 25+ curated Indian destinations
+* Category-based filtering
+* Search functionality
+* Custom destination markers
+* Smooth fly-to animations
+
+---
+
+### 🔐 User Authentication & Trip Management
+
+Secure account system with personalized trip storage.
+
+**Authentication Features**
+
+* User registration
+* Secure password hashing
+* Session-based authentication
+* Guest access mode
+* Save and manage multiple trip plans
+
+---
+
+## 🛠️ Technology Stack
+
+| Category       | Technology                    |
+| -------------- | ----------------------------- |
+| Backend        | Python 3, Flask 3.0           |
+| Frontend       | HTML5, CSS3, JavaScript (ES6) |
+| Maps           | LeafletJS                     |
+| Charts         | Chart.js 4.4                  |
+| Weather API    | OpenWeatherMap                |
+| Authentication | Werkzeug Password Hashing     |
+| Database       | JSON Flat-File Storage        |
+| Fonts          | Google Fonts (Inter, Outfit)  |
+
+---
+
+## 📂 Project Structure
+
+```bash
+voyageai/
+│
+├── app.py
+├── requirements.txt
+├── README.md
+│
 ├── data/
-│   ├── destinations.json     # 25 curated Indian destinations
-│   └── users.json            # User data & saved trips
+│   ├── destinations.json
+│   └── users.json
+│
 ├── static/
 │   ├── css/
-│   │   └── style.css         # Complete design system (700+ lines)
+│   │   └── style.css
+│   │
 │   └── js/
-│       ├── app.js            # SPA navigation & state management
-│       ├── auth.js           # Login / Register / Logout
-│       ├── itinerary.js      # Smart itinerary generation algorithm
-│       ├── budget.js         # Budget optimizer & expense tracker
-│       ├── weather.js        # Weather API integration
-│       └── map.js            # LeafletJS interactive map
+│       ├── app.js
+│       ├── auth.js
+│       ├── itinerary.js
+│       ├── budget.js
+│       ├── weather.js
+│       └── map.js
+│
 └── templates/
-    └── index.html            # Single-page application template
+    └── index.html
+```
+
+---
+
+## ⚙️ Installation
+
+### Prerequisites
+
+* Python 3.8 or higher
+* pip (Python Package Manager)
+
+### Clone the Repository
+
+```bash
+git clone https://github.com/your-username/voyageai.git
+cd voyageai
+```
+
+### Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### Configure Weather API
+
+Create a free API key from OpenWeatherMap and add it to your configuration.
+
+```python
+WEATHER_API_KEY = "your_api_key_here"
+```
+
+### Run the Application
+
+```bash
+python app.py
+```
+
+### Open in Browser
+
+```text
+http://localhost:5000
 ```
 
 ---
 
 ## 🌐 API Endpoints
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/` | Serve the SPA |
-| `POST` | `/api/register` | Create new user account |
-| `POST` | `/api/login` | Authenticate user |
-| `POST` | `/api/logout` | End user session |
-| `GET` | `/api/me` | Get current user info |
-| `GET` | `/api/destinations` | List all destinations |
-| `GET` | `/api/destinations/<id>` | Get destination details |
-| `GET` | `/api/trips` | Get user's saved trips |
-| `POST` | `/api/trips` | Save a new trip |
-| `DELETE` | `/api/trips/<id>` | Delete a saved trip |
-| `GET` | `/api/weather/<city>` | Get weather forecast |
+### Authentication
+
+| Method | Endpoint      | Description            |
+| ------ | ------------- | ---------------------- |
+| POST   | /api/register | Register a new user    |
+| POST   | /api/login    | User login             |
+| POST   | /api/logout   | Logout current user    |
+| GET    | /api/me       | Get authenticated user |
+
+### Destinations
+
+| Method | Endpoint               | Description             |
+| ------ | ---------------------- | ----------------------- |
+| GET    | /api/destinations      | Get all destinations    |
+| GET    | /api/destinations/{id} | Get destination details |
+
+### Trip Management
+
+| Method | Endpoint        | Description          |
+| ------ | --------------- | -------------------- |
+| GET    | /api/trips      | Retrieve saved trips |
+| POST   | /api/trips      | Save a trip          |
+| DELETE | /api/trips/{id} | Delete a trip        |
+
+### Weather
+
+| Method | Endpoint            | Description           |
+| ------ | ------------------- | --------------------- |
+| GET    | /api/weather/{city} | Weather forecast data |
 
 ---
 
 ## 📸 Screenshots
 
-| Dashboard | Itinerary Generator |
-|-----------|-------------------|
-| Stats, quick actions, popular destinations | AI-powered day-wise planning |
-
-| Budget Optimizer | Interactive Map |
-|-----------------|----------------|
-| Cost breakdown with charts | LeafletJS with dark theme |
-
-| Weather Forecast | Login System |
-|-----------------|-------------|
-| 5-day forecast with travel tips | Secure auth with guest mode |
+| Feature               | Preview        |
+| --------------------- | -------------- |
+| Dashboard             | Add Screenshot |
+| Itinerary Generator   | Add Screenshot |
+| Budget Optimizer      | Add Screenshot |
+| Interactive Map       | Add Screenshot |
+| Weather Forecast      | Add Screenshot |
+| Authentication System | Add Screenshot |
 
 ---
 
-## 🔮 Future Scope
+## 🔮 Future Enhancements
 
-- **AI Integration**: Connect to OpenAI/Gemini for truly intelligent itinerary suggestions
-- **Group Planning**: Share and collaborate on trip plans with friends
-- **Hotel Booking API**: Integration with MakeMyTrip or Booking.com
-- **Flight Price Tracker**: Compare and monitor flight prices
-- **Social Features**: Reviews, ratings, and travel community
-- **PWA Support**: Offline access and mobile app experience
-- **Multi-language**: Support for Hindi, Tamil, Telugu, and more
+* OpenAI / Gemini powered itinerary generation
+* Collaborative group trip planning
+* Hotel booking integrations
+* Flight fare tracking
+* Travel reviews and ratings
+* Progressive Web App (PWA) support
+* Offline functionality
+* Multi-language support
+
+  * Hindi
+  * Telugu
+  * Tamil
+  * Kannada
+  * Bengali
 
 ---
 
-## 👨‍💻 Author
+## 🤝 Contributing
 
-Developed as a Mini Project for academic submission.
+Contributions, suggestions, and feature requests are welcome.
+
+1. Fork the repository
+2. Create a feature branch
+
+```bash
+git checkout -b feature/amazing-feature
+```
+
+3. Commit your changes
+
+```bash
+git commit -m "Add amazing feature"
+```
+
+4. Push to GitHub
+
+```bash
+git push origin feature/amazing-feature
+```
+
+5. Open a Pull Request
 
 ---
 
 ## 📄 License
 
-This project is open-source and available under the [MIT License](LICENSE).
+This project is licensed under the MIT License.
+
+See the `LICENSE` file for more information.
+
+---
+
+## 👨‍💻 Author
+
+**Your Name**
+
+* GitHub: https://github.com/your-username
+* LinkedIn: https://linkedin.com/in/your-profile
+
+---
+
+<p align="center">
+  Made with ❤️ using Flask, JavaScript, and Open Source Technologies
+</p>
